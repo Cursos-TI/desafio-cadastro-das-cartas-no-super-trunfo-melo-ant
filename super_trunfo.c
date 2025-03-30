@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include <ctype.h>
 
 
 struct cartaTrunfo {
@@ -11,6 +12,8 @@ struct cartaTrunfo {
     float area;
     float pib;
     int pontosTuristicos;
+    float densidade;
+    float pibPerCapita;
 };
 
 struct baralhoTrunfo {
@@ -72,13 +75,13 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
             return baralho;
         }
 
-        printf("Insira a area da cidade..... ");
+        printf("Insira a area da cidade(em km²)..... ");
         if(scanf("%f", &baralho.cartas[i].area) != 1){
             printf("Erro ao ler a area\n");
             return baralho;
         }
 
-        printf("Insira o PIB da cidade..... ");
+        printf("Insira o PIB da cidade(em bilhões)..... ");
         if(scanf("%f", &baralho.cartas[i].pib) != 1){
             printf("Erro ao ler o PIB\n");
             return baralho;
@@ -89,8 +92,13 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
             printf("Erro ao ler os pontos turisticos\n");
             return baralho;
         }
+        
+
 
         printf("===================================================\n");
+        //calcular pib per capita e densidade
+        baralho.cartas[i].densidade = baralho.cartas[i].populacao / baralho.cartas[i].area;
+        baralho.cartas[i].pibPerCapita = baralho.cartas[i].pib /baralho.cartas[i].populacao;
         baralho.qtdCartas++;
     }
     return baralho;
@@ -105,8 +113,10 @@ void mostrarCarta(struct cartaTrunfo carta) {
     printf("Cidade : %s\n", carta.cidade);
     printf("Populacao : %d\n", carta.populacao);
     printf("Pontos Turisticos : %d\n", carta.pontosTuristicos);
-    printf("Area : %.2f\n", carta.area);
-    printf("PIB : %.2f\n", carta.pib);
+    printf("Area : %.2f km²\n", carta.area);
+    printf("PIB : %.2f bilhões de reais \n", carta.pib);
+    printf("Densidade populacional : %.2f hab/km²\n",carta.densidade);
+    printf("PIB per capita %.2f PIB/hab \n",carta.pibPerCapita);
     printf("===================================================\n");
 }
 

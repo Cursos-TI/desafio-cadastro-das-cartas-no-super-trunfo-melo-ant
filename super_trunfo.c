@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 
+#define MAX_CARDS 2
 
 struct cartaTrunfo {
     char estado[3];
@@ -18,7 +19,7 @@ struct cartaTrunfo {
 };
 
 struct baralhoTrunfo {
-    struct cartaTrunfo cartas[32];
+    struct cartaTrunfo cartas[MAX_CARDS];
     int qtdCartas;
 };
 
@@ -149,6 +150,63 @@ void mostrarCarta(struct cartaTrunfo carta) {
     printf("===================================================\n");
 }
 
+void compararCartas(struct cartaTrunfo cartaA, struct cartaTrunfo cartaB){
+    printf("===================================================\n");
+    printf("Carta A (%d/%s) Vs Carta B(%d/%s) \n",cartaA.cod,cartaA.estado,cartaB.cod,cartaB.estado);
+
+
+    if (cartaA.populacao > cartaB.populacao){
+        printf("Populacao : Carta A vence (1)\n");
+    }else{
+        printf("Populacao : Carta B vence (0)\n");
+    };
+
+    if (cartaA.area > cartaB.area){
+        printf("Area : Carta A vence (1)\n");
+    }else{
+        printf("Area : Carta B vence (0)\n");
+    };
+
+    if (cartaA.pib > cartaB.pib){
+        printf("PIB : Carta A vence (1)\n");
+    }else{
+        printf("PIB : Carta B vence (0)\n");
+    };
+
+    if (cartaA.pontosTuristicos > cartaB.pontosTuristicos){
+        printf("Pontos Turisticos : Carta A vence (1)\n");
+    }else{
+        printf("Pontos Turisticos : Carta B vence (0)\n");
+    };
+
+    if (cartaA.densidade < cartaB.densidade){
+        printf("Area : Carta A vence (1)\n");
+    }else{
+        printf("Area : Carta B vence (0)\n");
+    };
+    
+    if (cartaA.pibPerCapita	 > cartaB.pibPerCapita){
+        printf("PIB per capita : Carta A vence (1)\n");
+    }else{
+        printf("PIB per capita : Carta B vence (0)\n");
+    };
+
+    if (cartaA.superPoder > cartaB.superPoder){
+        printf("Super Poder : Carta A vence (1)\n");
+    }else{
+        printf("Super Poder : Carta B vence (0)\n");
+    };
+    // ooooooooooooooooooooooooooooooooooooo
+
+    
+    
+    
+   
+    
+
+    printf("===================================================\n");
+};
+
 int main(int argc, char const *argv[]) {
     // Sugestão: Defina variáveis separadas para cada atributo da cidade.
     // Exemplos de atributos: código da cidade, nome, população, área, PIB, número de pontos turísticos.
@@ -162,7 +220,7 @@ int main(int argc, char const *argv[]) {
         printf("Erro ao ler a quantidade de cartas\n");
         return 1;
     }
-    if(qtdA > 32){
+    if(qtdA > MAX_CARDS){
         printf("Erro, quantidade de cartas supera a capacidade do baralho(32)");
         return 1;
     }
@@ -177,10 +235,15 @@ int main(int argc, char const *argv[]) {
     // Exiba os valores inseridos para cada atributo da cidade, um por linha.
 
     if (baralhoA.qtdCartas > 0){
+        
         for (int i = 0;i<baralhoA.qtdCartas;i++){
             mostrarCarta(baralhoA.cartas[i]);
         };
     
+    };
+
+    if (baralhoA.qtdCartas == 2){
+        compararCartas(baralhoA.cartas[0],baralhoA.cartas[1]);
     };
     
 

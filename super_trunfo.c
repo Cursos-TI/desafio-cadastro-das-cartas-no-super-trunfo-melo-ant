@@ -8,18 +8,20 @@ struct cartaTrunfo {
     char estado[3];
     int cod;
     char cidade[34];
-    int populacao;
+    unsigned long int populacao;
     float area;
     float pib;
     int pontosTuristicos;
     float densidade;
     float pibPerCapita;
+    float superPoder; // area + pib + pontosTuristicos + pibPerCapita + populacao + 1/densidade
 };
 
 struct baralhoTrunfo {
     struct cartaTrunfo cartas[32];
     int qtdCartas;
 };
+
 
 int contarCartasEstado(char sigla[2], struct baralhoTrunfo baralho){
     int qtdb = 0;
@@ -56,7 +58,6 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
                 return baralho;
             }
             
-            //function to seach the greatest number, and return if the next number are disponible
             char estadoUpper[3];
             to_upper(estado);
             cod = contarCartasEstado(estado,baralho);
@@ -118,8 +119,13 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
         
         printf("===================================================\n");
         //calcular pib per capita e densidade
-        baralho.cartas[i].densidade = baralho.cartas[i].populacao / baralho.cartas[i].area;
-        baralho.cartas[i].pibPerCapita = (baralho.cartas[i].pib) /baralho.cartas[i].populacao;
+        baralho.cartas[i].densidade = (float)baralho.cartas[i].populacao / baralho.cartas[i].area;
+        baralho.cartas[i].pibPerCapita = (baralho.cartas[i].pib) /(float)baralho.cartas[i].populacao;
+
+        //canculando super-poder
+        baralho.cartas[i].superPoder = baralho.cartas[i].populacao + baralho.cartas[i].area + baralho.cartas[i].pib + baralho.cartas[i].pontosTuristicos + baralho.cartas[i].pibPerCapita + (1/baralho.cartas[i].densidade);
+
+
         baralho.qtdCartas++;
     }
     return baralho;
@@ -128,6 +134,8 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
 
 
 void mostrarCarta(struct cartaTrunfo carta) {
+    printf("===================================================\n");
+    printf("SUEPER PODER : %d\n", carta.superPoder);
     printf("===================================================\n");
     printf("Codigo : %d\n", carta.cod);
     printf("Estado : %s\n", carta.estado);
@@ -154,7 +162,10 @@ int main(int argc, char const *argv[]) {
         printf("Erro ao ler a quantidade de cartas\n");
         return 1;
     }
-
+    if(qtdA > 32){
+        printf("Erro, quantidade de cartas supera a capacidade do baralho(32)");
+        return 1;
+    }
     // Cadastro das Cartas:
     // Sugestão: Utilize a função scanf para capturar as entradas do usuário para cada atributo.
     // Solicite ao usuário que insira as informações de cada cidade, como o código, nome, população, área, etc.

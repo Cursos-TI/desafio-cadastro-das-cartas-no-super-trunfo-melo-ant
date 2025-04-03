@@ -136,7 +136,7 @@ struct baralhoTrunfo criarCarta(struct baralhoTrunfo baralho, int qtd) {
 
 void mostrarCarta(struct cartaTrunfo carta) {
     printf("===================================================\n");
-    printf("SUEPER PODER : %d\n", carta.superPoder);
+    printf("SUPER PODER : %d\n", carta.superPoder);
     printf("===================================================\n");
     printf("Codigo : %d\n", carta.cod);
     printf("Estado : %s\n", carta.estado);
